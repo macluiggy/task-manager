@@ -5,6 +5,8 @@ WORKDIR /app
 COPY package.json .
 COPY bun.lockb .
 
+RUN chown -R $(whoami) $(pwd)
+
 RUN bun install
 
 COPY src src
