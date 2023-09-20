@@ -10,9 +10,11 @@ RUN chown -R $(whoami) $(pwd)
 RUN bun install
 
 COPY src src
+COPY .env .env
 COPY tsconfig.json .
 COPY prisma prisma
-RUN bun prisma:generate
+RUN bunx prisma generate
+RUN bunx prisma migrate dev --name init
 
 ENV NODE_ENV development
 CMD ["bun", "--watch", "src/index.ts"]

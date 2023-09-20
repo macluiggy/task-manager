@@ -6,15 +6,15 @@ const test = new Elysia({
   name: "test",
   prefix: "/test",
 })
-  .get("/", (context) => {
-    return testController.test();
+  .get("/", async (context) => {
+    return await testController.test();
   })
   .get("/id/:id", (context) => {
     console.log(context);
     // return "test id";
     return {
       id: context.params.id,
-    }
+    };
     // return testController.testId(context.params.id);
   });
 

@@ -4,9 +4,12 @@ const prisma = new PrismaClient();
 class TestController {
   constructor() {}
 
-  test() {
+  async test() {
     // return "hello from test";
-    return prisma.test.findMany();
+    return {
+      message: "hello from test",
+      data: await prisma.test.findMany()
+    }
   }
 }
 
