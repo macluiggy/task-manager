@@ -6,7 +6,7 @@ class TestController {
 
   test() {
     // return "hello from test";
-    return prisma.user.findMany();
+    return prisma.test.findMany();
   }
 }
 
