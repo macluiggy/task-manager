@@ -5,7 +5,9 @@ const app = new Elysia({
   name: "Elysia",
   prefix: "/v1",
 })
-  .get("/", () => "Hello Elysia")
+  .get("/", () => {
+    return "Hello Elysia";
+  })
   .use(plugin)
   .listen(3000);
 
