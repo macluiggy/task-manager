@@ -7,15 +7,44 @@ const test = new Elysia({
   prefix: "/test",
 })
   .get("/", async (context) => {
-    return await testController.test();
+    try {
+      return await testController.find();
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
   })
-  .get("/id/:id", (context) => {
-    console.log(context);
-    // return "test id";
-    return {
-      id: context.params.id,
-    };
-    // return testController.testId(context.params.id);
+  .post("/", (context) => {
+    try {
+      return testController.create(context.body);
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  })
+  .get("/:id", (context) => {
+    try {
+      return testController.findById(+context.params.id);
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  })
+  .patch("/:id", (context) => {
+    try {
+      return testController.update(+context.params.id, context.body);
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  })
+  .delete("/:id", (context) => {
+    try {
+      return testController.delete(+context.params.id);
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
   });
 
 export default test;
