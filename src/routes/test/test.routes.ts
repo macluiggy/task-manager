@@ -1,11 +1,14 @@
-import Elysia from "elysia";
+import Elysia, { Context } from "elysia";
 import TestController from "../../controllers/test/test.controller";
+import { globalDecorate } from "../../constants/config/config.constant";
 const testController = new TestController();
 
 const test = new Elysia({
   name: "test",
   prefix: "/test",
 })
+  .decorate(globalDecorate)
+  .state("version", "1.0.0")
   .get("/", async (context) => {
     try {
       return await testController.find();
@@ -45,6 +48,16 @@ const test = new Elysia({
       console.log(error);
       return error;
     }
+  })
+  // handler: https://elysiajs.com/concept/handler.html
+  .get("/response", () => {
+    return {
+      vtuber: ["Shirakami Fubuki", "Inugami Korone"],
+    };
+  })
+  // https://elysiajs.com/concept/state-decorate.html
+  .get("state-and-decorate", ({ store: { version }, getDate }) => {
+    return `version: ${version} ${getDate()}`;
   });
 
 export default test;

@@ -1,11 +1,14 @@
 import { Elysia } from "elysia";
 import testRoutes from "./routes/test/test.routes";
 import { ENV_VARIABLES } from "./env-variables";
+import { globalDecorate } from "./constants/config/config.constant";
 
 const app = new Elysia({
   name: "Elysia",
   prefix: "/api/v1",
 })
+  .state("version", 1)
+  .decorate(globalDecorate)
   .get("/", () => {
     return "Hello Elysia";
   })
