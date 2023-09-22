@@ -7,8 +7,27 @@ const test = new Elysia({
   name: "test",
   prefix: "/test",
 })
+  // handler: https://elysiajs.com/concept/handler.html
+  .get("/response", () => {
+    return {
+      vtuber: ["Shirakami Fubuki", "Inugami Korone"],
+    };
+  })
+  // https://elysiajs.com/concept/state-decorate.html
   .decorate(globalDecorate)
-  .state("version", "1.0.0")
+  .state("version", 1 as number | null)
+  .get("state-and-decorate", ({ store: { version }, getDate }) => {
+    return `version: ${version} ${getDate()}`;
+  })
+  // https://elysiajs.com/concept/state-decorate.html
+  .derive(({ request: { headers }, store, getDate }) => {
+    return {
+      authorization: headers.get("Authorization") || headers.get("authorization") || "No Authorization",
+    };
+  })
+  .get("/version", ({ authorization }) => {
+    return `Authorization: ${authorization}`;
+  })
   .get("/", async (context) => {
     try {
       return await testController.find();
@@ -48,16 +67,6 @@ const test = new Elysia({
       console.log(error);
       return error;
     }
-  })
-  // handler: https://elysiajs.com/concept/handler.html
-  .get("/response", () => {
-    return {
-      vtuber: ["Shirakami Fubuki", "Inugami Korone"],
-    };
-  })
-  // https://elysiajs.com/concept/state-decorate.html
-  .get("state-and-decorate", ({ store: { version }, getDate }) => {
-    return `version: ${version} ${getDate()}`;
   });
 
 export default test;
