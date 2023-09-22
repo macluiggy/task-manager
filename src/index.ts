@@ -31,7 +31,18 @@ await prismaMain();
 app
   .onError(({ code, error, request, set }) => {
     const { message, name, stack, cause } = error;
-    console.error(error);
+    console.error(error.stack);
+    
+    // Type '"UNKNOWN" | "VALIDATION" | "NOT_FOUND" | "PARSE" | "INTERNAL_SERVER_ERROR"
+    const status = {
+      UNKNOWN: 500,
+      VALIDATION: 400,
+      NOT_FOUND: 404,
+      PARSE: 400,
+      INTERNAL_SERVER_ERROR: 500,
+    }[code];
+
+    set.status = status;
     return {
       code,
       message,
