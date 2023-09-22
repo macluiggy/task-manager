@@ -18,7 +18,7 @@ taskRoutes
     "/",
     (context) => {
       try {
-        const data = context.body
+        const data = context.body;
         return taskController.create(data);
       } catch (error) {
         throw error;
@@ -27,6 +27,31 @@ taskRoutes
     {
       body: crateTaskSchema,
     }
-  );
+  )
+  .get("/:id", (context) => {
+    try {
+      const id = +context.params.id;
+      return taskController.findById(id);
+    } catch (error) {
+      throw error;
+    }
+  })
+  .patch("/:id", (context) => {
+    try {
+      const id = +context.params.id;
+      const data = context.body;
+      return taskController.update(id, data);
+    } catch (error) {
+      throw error;
+    }
+  })
+  .delete("/:id", (context) => {
+    try {
+      const id = +context.params.id;
+      return taskController.delete(id);
+    } catch (error) {
+      throw error;
+    }
+  });
 
 export default taskRoutes;

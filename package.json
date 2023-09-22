@@ -8,6 +8,7 @@
     "prisma:migrate": "prisma migrate dev --name init"
   },
   "dependencies": {
+    "@hapi/boom": "^10.0.1",
     "@prisma/client": "5.3.1",
     "elysia": "latest",
     "jsonwebtoken": "^9.0.2"

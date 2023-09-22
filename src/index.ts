@@ -28,21 +28,78 @@ const app = new Elysia({
 
 await prismaMain();
 
+/**
+ * set:  {
+    headers: {
+        [header: string]: string;
+    } & {
+        "Set-Cookie"?: string | string[] | undefined;
+    };
+    status?: number | undefined;
+    redirect?: string | undefined;
+}
+
+request: Request
+
+error: Readonly<Error> | Readonly<ValidationError> | Readonly<NotFoundError> | Readonly<ParseError> | Readonly<...>
+
+code: "UNKNOWN" | "VALIDATION" | "NOT_FOUND" | "PARSE" | "INTERNAL_SERVER_ERROR"
+ */
+
+type ErrorObject = {
+  code:
+    | "UNKNOWN"
+    | "VALIDATION"
+    | "NOT_FOUND"
+    | "PARSE"
+    | "INTERNAL_SERVER_ERROR"
+    | string;
+  error: Error & {
+    isBoom?: boolean;
+    output?: {
+      statusCode: number;
+      payload: {
+        statusCode: number;
+        error: string;
+        message: string;
+      };
+      headers: {
+        [header: string]: string;
+      };
+    };
+  };
+  request: Request;
+  set: {
+    headers: {
+      [header: string]: string;
+    } & {
+      "Set-Cookie"?: string | string[] | undefined;
+    };
+    status?: number | undefined;
+    redirect?: string | undefined;
+  };
+};
 app
-  .onError(({ code, error, request, set }) => {
+  .onError((errorObject: ErrorObject) => {
+    let { code, error, request, set } = errorObject;
     const { message, name, stack, cause } = error;
     console.error(error.stack);
-    
-    // Type '"UNKNOWN" | "VALIDATION" | "NOT_FOUND" | "PARSE" | "INTERNAL_SERVER_ERROR"
-    const status = {
-      UNKNOWN: 500,
-      VALIDATION: 400,
-      NOT_FOUND: 404,
-      PARSE: 400,
-      INTERNAL_SERVER_ERROR: 500,
-    }[code];
+
+    const status =
+      {
+        UNKNOWN: 500,
+        VALIDATION: 400,
+        NOT_FOUND: 404,
+        PARSE: 400,
+        INTERNAL_SERVER_ERROR: 500,
+        P2025: 404,
+      }[code] || 500;
 
     set.status = status;
+    if (error.isBoom) {
+      set.status = error.output?.statusCode || 500;
+      code = error.output?.payload.error || "UNKNOWN";
+    }
     return {
       code,
       message,

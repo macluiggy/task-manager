@@ -12,6 +12,7 @@ COPY .env .env
 COPY tsconfig.json .
 COPY prisma prisma
 RUN bun prisma:generate
+RUN bun prisma:migrate
 # RUN bun prisma:migrate
 
 ENV NODE_ENV development

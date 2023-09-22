@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import boom from "@hapi/boom";
 
 const prisma = new PrismaClient();
 
@@ -24,25 +25,32 @@ class TaskController {
   }
 
   async findById(id: number) {
+    const task = await prisma.task.findUnique({
+      where: {
+        id: id,
+      },
+    });
+    if (!task) {
+     throw boom.notFound("Task not found");
+    }
     return {
       message: "hello from task",
-      data: await prisma.task.findUnique({
-        where: {
-          id: id,
-        },
-      }),
+      data: task,
     };
   }
 
   async update(id: number, data: any) {
+    await this.findById(id);
+    const task =  await prisma.task.update({
+      where: {
+        id: id,
+      },
+      data: data,
+    })
+    
     return {
       message: "hello from task",
-      data: await prisma.task.update({
-        where: {
-          id: id,
-        },
-        data: data,
-      }),
+      data: task,
     };
   }
 
