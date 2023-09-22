@@ -3,6 +3,19 @@ import TestController from "../../controllers/test/test.controller";
 import { globalDecorate } from "../../constants/config/config.constant";
 const testController = new TestController();
 
+const isSignIn = (context: Context) => {
+  // return headers.get("Authorization") || headers.get("authorization");
+  const {
+    set,
+    request: { headers },
+  } = context;
+  const authorization = headers.get("Authorization") || headers.get("authorization");
+  if (!authorization) {
+    set.status = 401;
+    return "Unauthorized";
+  }
+};
+
 const test = new Elysia({
   name: "test",
   prefix: "/test",
@@ -22,11 +35,28 @@ const test = new Elysia({
   // https://elysiajs.com/concept/state-decorate.html
   .derive(({ request: { headers }, store, getDate }) => {
     return {
-      authorization: headers.get("Authorization") || headers.get("authorization") || "No Authorization",
+      authorization:
+        headers.get("Authorization") ||
+        headers.get("authorization") ||
+        "No Authorization",
     };
   })
   .get("/version", ({ authorization }) => {
     return `Authorization: ${authorization}`;
+  })
+  // https://elysiajs.com/concept/life-cycle.html
+  .get("/life-cycle", () => "hello", {
+    // beforeHandle: (context) => {
+    //   const {
+    //     set,
+    //     request: { headers },
+    //   } = context;
+    //   if (!isSignIn(headers)) {
+    //     set.status = 401;
+    //     return "Unauthorized";
+    //   }
+    // },
+    beforeHandle: [isSignIn],
   })
   .get("/", async (context) => {
     try {
