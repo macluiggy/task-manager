@@ -6,7 +6,13 @@ import { globalDecorate } from "./constants/config/config.constant";
 const app = new Elysia({
   name: "Elysia",
   prefix: "/api/v1",
-})
+  seed: {
+    version: 1,
+  },
+});
+
+app
+  // .group("/api/v1", (app) => app)
   .state("version", 1)
   .decorate(globalDecorate)
   .get("/", () => {
