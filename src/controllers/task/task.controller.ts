@@ -31,7 +31,7 @@ class TaskController {
       },
     });
     if (!task) {
-     throw boom.notFound("Task not found");
+      throw boom.notFound("Task not found");
     }
     return {
       message: "hello from task",
@@ -41,13 +41,13 @@ class TaskController {
 
   async update(id: number, data: any) {
     await this.findById(id);
-    const task =  await prisma.task.update({
+    const task = await prisma.task.update({
       where: {
         id: id,
       },
       data: data,
-    })
-    
+    });
+
     return {
       message: "hello from task",
       data: task,
@@ -55,13 +55,15 @@ class TaskController {
   }
 
   async delete(id: number) {
+    await this.findById(id);
+    const task = await prisma.task.delete({
+      where: {
+        id: id,
+      },
+    });
     return {
       message: "hello from task",
-      data: await prisma.task.delete({
-        where: {
-          id: id,
-        },
-      }),
+      data: task,
     };
   }
 }
