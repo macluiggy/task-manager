@@ -1,6 +1,7 @@
-import Elysia, { Context } from "elysia";
+import Elysia, { Context, t } from "elysia";
 import TestController from "../../controllers/test/test.controller";
 import { globalDecorate } from "../../constants/config/config.constant";
+import { testSchema } from "../../schemas/test/test.schema";
 const testController = new TestController();
 
 const isSignIn = (context: Context) => {
@@ -9,7 +10,8 @@ const isSignIn = (context: Context) => {
     set,
     request: { headers },
   } = context;
-  const authorization = headers.get("Authorization") || headers.get("authorization");
+  const authorization =
+    headers.get("Authorization") || headers.get("authorization");
   if (!authorization) {
     set.status = 401;
     return "Unauthorized";
@@ -20,6 +22,9 @@ const test = new Elysia({
   name: "test",
   prefix: "/test",
 })
+  .guard({
+    response: t.String(),
+  })
   // handler: https://elysiajs.com/concept/handler.html
   .get("/response", () => {
     return {
@@ -58,6 +63,21 @@ const test = new Elysia({
     // },
     beforeHandle: [isSignIn],
   })
+  // https://elysiajs.com/concept/schema.html
+  .model({
+    sign: testSchema
+  })
+  .post(
+    "/schema",
+    (context) => {
+      return context.body;
+    },
+    {
+      body: 'sign',
+      response: 'sign'
+      // beforeHandle: [isSignIn],
+    }
+  )
   .get("/", async (context) => {
     try {
       return await testController.find();

@@ -1,4 +1,4 @@
-import { Context, Elysia } from "elysia";
+import { Context, Elysia, t } from "elysia";
 import testRoutes from "./routes/test/test.routes";
 import { ENV_VARIABLES } from "./env-variables";
 import { globalDecorate } from "./constants/config/config.constant";
@@ -27,6 +27,9 @@ const app = new Elysia({
 app
   // .onBeforeHandle(isSignIn)
   // .group("/api/v1", (app) => app)
+  .guard({
+    response: t.String()
+  })
   .state("version", 1)
   .decorate(globalDecorate)
   .get("/", () => {
