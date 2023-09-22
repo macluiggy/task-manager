@@ -13,11 +13,12 @@ class TaskController {
   }
 
   async create(data: any) {
+    const create = prisma.task.create({
+      data: data,
+    });
     return {
       message: "hello from task",
-      data: await prisma.task.create({
-        data: data,
-      }),
+      data: await prisma.$transaction([create]),
     };
   }
 
