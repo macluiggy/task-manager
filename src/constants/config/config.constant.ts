@@ -1,5 +1,9 @@
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 const globalDecorate = {
   getDate: () => new Date(),
+  db: prisma,
 };
 
 const API_ENVIRONMENT = {

@@ -2,6 +2,8 @@ import { Context, Elysia, t } from "elysia";
 import testRoutes from "./routes/test/test.routes";
 import { ENV_VARIABLES } from "./env-variables";
 import { globalDecorate } from "./constants/config/config.constant";
+import taskRoutes from "./routes/task/task.routes";
+import prismaMain from "../prisma/script";
 
 // const isSignIn = (context: Context) => {
 //   // return headers.get("Authorization") || headers.get("authorization");
@@ -24,18 +26,21 @@ const app = new Elysia({
   },
 });
 
+await prismaMain();
+
 app
   // .onBeforeHandle(isSignIn)
   // .group("/api/v1", (app) => app)
-  .guard({
-    response: t.String()
-  })
+  // .guard({
+  //   response: t.String(),
+  // })
   .state("version", 1)
   .decorate(globalDecorate)
   .get("/", () => {
     return "Hello Elysia";
   })
   .use(testRoutes)
+  .use(taskRoutes)
   .listen(ENV_VARIABLES.PORT);
 
 console.log(
