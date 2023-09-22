@@ -17,3 +17,13 @@ model Test {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model TestTest {
+  id        Int      @id @default(autoincrement())
+  name      String
+  description String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  @@map("test_test")
+}
+
