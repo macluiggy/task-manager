@@ -29,6 +29,17 @@ const app = new Elysia({
 await prismaMain();
 
 app
+  .onError(({ code, error, request, set }) => {
+    const { message, name, stack, cause } = error;
+    console.error(error);
+    return {
+      code,
+      message,
+      name,
+      stack,
+      cause,
+    };
+  })
   // .onBeforeHandle(isSignIn)
   // .group("/api/v1", (app) => app)
   // .guard({

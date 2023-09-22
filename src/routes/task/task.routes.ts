@@ -21,8 +21,7 @@ taskRoutes
         const data = context.body
         return taskController.create(data);
       } catch (error) {
-        console.log(error);
-        return error;
+        throw error;
       }
     },
     {
