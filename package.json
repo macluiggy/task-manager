@@ -15,8 +15,10 @@
     "jsonwebtoken": "^9.0.2"
   },
   "devDependencies": {
+    "@types/supertest": "^2.0.13",
     "bun-types": "latest",
     "prisma": "5.3.1",
+    "supertest": "^6.3.3",
     "ts-jest": "^29.1.1"
   },
   "module": "src/index.js"
