@@ -2,7 +2,7 @@
   "name": "task-manager",
   "version": "1.0.50",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1 ",
+    "test": "bun test",
     "dev": "bun run --watch src/index.ts",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev --name init"
@@ -11,6 +11,7 @@
     "@hapi/boom": "^10.0.1",
     "@prisma/client": "5.3.1",
     "elysia": "latest",
+    "jest": "^29.7.0",
     "jsonwebtoken": "^9.0.2"
   },
   "devDependencies": {
