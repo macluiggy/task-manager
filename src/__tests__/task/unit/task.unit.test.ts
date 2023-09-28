@@ -52,16 +52,15 @@ describe("TaskController", () => {
     });
 
     it("should throw error if task not found", async () => {
-      // await controller.findById(999);
-      // await expect(controller.findById(999)).rejects.toThrow("Task not found");
-      controller.findById(999).catch((err) => {
-        console.log(err instanceof Error); // should print true if it's an error
-        console.log(err.message); // should print the error message
-      });
+      try {
+        console.log("Start of test");
 
-      // await expect(controller.findById(999)).rejects.toThrow(
-      //   "Specific error message"
-      // );
+        await controller.findById(999);
+
+        console.log("After findById");
+      } catch (err: any) {
+        expect(err.message).toBe("Task not found");
+      }
     });
 
     // ... Similarly, write tests for update, delete, etc.
