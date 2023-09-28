@@ -30,6 +30,7 @@ class TaskController {
         id: id,
       },
     });
+
     if (!task) {
       throw boom.notFound("Task not found");
     }

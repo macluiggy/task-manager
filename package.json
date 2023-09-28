@@ -16,7 +16,8 @@
   },
   "devDependencies": {
     "bun-types": "latest",
-    "prisma": "5.3.1"
+    "prisma": "5.3.1",
+    "ts-jest": "^29.1.1"
   },
   "module": "src/index.js"
 }
