@@ -16,6 +16,6 @@ RUN bun prisma:migrate
 # RUN bun prisma:migrate
 
 ENV NODE_ENV development
-CMD ["bun", "--watch", "src/index.ts"]
+# CMD ["bun", "--watch", "src/index.ts"]
 
-EXPOSE 3000
+# EXPOSE 3000
