@@ -2,6 +2,7 @@ import { describe, expect, it, mock, beforeEach, jest } from "bun:test";
 import TaskController from "../../../controllers/task/task.controller";
 import { PrismaClient } from "@prisma/client";
 import boom from "@hapi/boom";
+import requestApp from "../../requestApp";
 
 // Mock the Prisma client
 mock(() => "@prisma/client");
@@ -36,6 +37,10 @@ describe("TaskController", () => {
       const result = await controller.find();
 
       expect(result.data).toBeInstanceOf(Array);
+
+     const res = await requestApp.get("/api/v1/task")
+     console.log(res.body);
+     
     });
 
     it("should create a task", async () => {
