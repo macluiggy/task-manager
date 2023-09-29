@@ -24,7 +24,7 @@ describe("TaskController", () => {
   });
 
   describe("CRUD operations for task service", () => {
-    it("should find all tasks", async () => {
+    it("should find all tasks", async () => { 
       const result = await controller.find();
 
       expect(result.data).toBeInstanceOf(Array);
