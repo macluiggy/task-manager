@@ -10,11 +10,14 @@
   "dependencies": {
     "@hapi/boom": "^10.0.1",
     "@prisma/client": "5.3.1",
+    "axios": "^1.5.1",
     "elysia": "latest",
     "jest": "^29.7.0",
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "sinon": "^16.0.0"
   },
   "devDependencies": {
+    "@types/sinon": "^10.0.17",
     "@types/supertest": "^2.0.13",
     "bun-types": "latest",
     "prisma": "5.3.1",
