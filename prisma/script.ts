@@ -17,6 +17,10 @@ async function prismaMain() {
         async $allOperations({ model, operation, args, query }) {
           // convert due date from string to date if it is string
         },
+        async delete({ model, operation, args, query }) {
+          console.log("DELETE");
+          console.log("HOOOOOOOOOOOOOOOOOOOOOOOOOOOLAAAAAAAAAAAAAAAAAAAAAAA");
+        },
       },
     },
   });

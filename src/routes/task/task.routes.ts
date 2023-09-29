@@ -1,6 +1,7 @@
 import Elysia from "elysia";
 import TaskController from "../../controllers/task/task.controller";
 import { crateTaskSchema } from "../../schemas/task/task.schema";
+import { verifyTaskIsDone } from "../../middlewares/task/task.middleware";
 
 const taskController = new TaskController();
 

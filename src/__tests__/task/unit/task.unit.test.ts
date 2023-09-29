@@ -10,6 +10,8 @@ import {
 } from "bun:test";
 import TaskController from "../../../controllers/task/task.controller";
 import { PrismaClient } from "@prisma/client";
+import prismaMain from "../../../../prisma/script";
+prismaMain();
 
 // Mock the Prisma client
 mock(() => "@prisma/client");

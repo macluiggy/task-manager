@@ -56,14 +56,15 @@ class TaskController {
 
   async delete(id: number) {
     await this.findById(id);
-    const task = await prisma.task.delete({
+    const task = prisma.task.delete({
       where: {
         id: id,
       },
     });
+    const [deleted] = await prisma.$transaction([task]);
     return {
       message: "hello from task",
-      data: task,
+      data: deleted,
     };
   }
 }
